@@ -15,10 +15,7 @@ async function getStudents(): Promise<Student[]> {
     cache: "no-store",
   });
 
-  if (!res.ok) {
-    return [];
-  }
-
+  if (!res.ok) return [];
   return res.json();
 }
 
@@ -41,21 +38,23 @@ export default async function HomePage() {
   const students = await getStudents();
 
   return (
-    <main className="min-h-screen bg-gray-100 p-8">
-      <div className="max-w-5xl mx-auto">
+    <main className="min-h-screen bg-slate-100 p-8">
+      <div className="max-w-6xl mx-auto">
         {/* Header */}
-        <div className="flex items-center justify-between mb-8">
-          <h1 className="text-3xl font-bold text-gray-800">Student Registry</h1>
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
+          <h1 className="text-3xl font-bold text-slate-800">
+            Student Registry
+          </h1>
 
           <div className="flex gap-4">
             <Link href="/register">
-              <button className="px-5 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700">
+              <button className="px-6 py-2 rounded-lg bg-blue-600 text-white font-medium shadow hover:bg-blue-700">
                 Register Student
               </button>
             </Link>
 
             <Link href="/create-card">
-              <button className="px-5 py-2 rounded-lg bg-green-600 text-white hover:bg-green-700">
+              <button className="px-6 py-2 rounded-lg bg-green-600 text-white font-medium shadow hover:bg-green-700">
                 Create ID Card
               </button>
             </Link>
@@ -63,28 +62,44 @@ export default async function HomePage() {
         </div>
 
         {/* Student List */}
-        <div className="bg-white rounded-xl shadow-md overflow-hidden">
-          <table className="w-full">
-            <thead className="bg-gray-200">
+        <div className="bg-white border border-slate-200 rounded-2xl shadow-lg overflow-hidden">
+          <table className="w-full border-collapse">
+            <thead className="bg-slate-800">
               <tr>
-                <th className="px-6 py-3 text-left">Roll No</th>
-                <th className="px-6 py-3 text-left">Name</th>
-                <th className="px-6 py-3 text-center">Action</th>
+                <th className="px-6 py-4 text-left text-white font-semibold">
+                  Roll No
+                </th>
+                <th className="px-6 py-4 text-left text-white font-semibold">
+                  Name
+                </th>
+                <th className="px-6 py-4 text-center text-white font-semibold">
+                  Action
+                </th>
               </tr>
             </thead>
 
             <tbody>
               {students.length === 0 ? (
                 <tr>
-                  <td colSpan={3} className="text-center py-6 text-gray-500">
+                  <td
+                    colSpan={3}
+                    className="py-10 text-center text-slate-500 text-lg"
+                  >
                     No students registered yet
                   </td>
                 </tr>
               ) : (
-                students.map((student) => (
-                  <tr key={student.id} className="border-t hover:bg-gray-50">
-                    <td className="px-6 py-4">{student.rollNo}</td>
-                    <td className="px-6 py-4">{student.name}</td>
+                students.map((student, index) => (
+                  <tr
+                    key={student.id}
+                    className={`border-b border-slate-200 ${
+                      index % 2 === 0 ? "bg-white" : "bg-slate-50"
+                    } hover:bg-blue-50 transition`}
+                  >
+                    <td className="px-6 py-4 text-slate-800 font-medium">
+                      {student.rollNo}
+                    </td>
+                    <td className="px-6 py-4 text-slate-700">{student.name}</td>
                     <td className="px-6 py-4 text-center">
                       <form action={deregisterStudent}>
                         <input
@@ -94,7 +109,7 @@ export default async function HomePage() {
                         />
                         <button
                           type="submit"
-                          className="px-4 py-1 rounded-md bg-red-500 text-white hover:bg-red-600"
+                          className="px-4 py-1.5 rounded-md bg-red-500 text-white font-medium shadow hover:bg-red-600"
                         >
                           De-register
                         </button>

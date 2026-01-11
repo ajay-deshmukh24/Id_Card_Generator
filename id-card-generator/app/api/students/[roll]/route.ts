@@ -2,21 +2,20 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 
 interface Params {
-  params: {
+  params: Promise<{
     roll: string;
-  };
+  }>;
 }
 
 /**
- * GET: Fetch a single student by roll number
- * Used by Create ID Card page
+ * GET: Fetch a student by roll number
  */
 export async function GET(_: Request, { params }: Params) {
+  const { roll } = await params;
+
   try {
     const student = await prisma.student.findUnique({
-      where: {
-        rollNo: params.roll,
-      },
+      where: { rollNo: roll },
     });
 
     if (!student) {
@@ -25,7 +24,7 @@ export async function GET(_: Request, { params }: Params) {
 
     return NextResponse.json(student);
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return NextResponse.json(
       { error: "Failed to fetch student" },
       { status: 500 }
@@ -35,21 +34,20 @@ export async function GET(_: Request, { params }: Params) {
 
 /**
  * DELETE: De-register a student by roll number
- * Used by Home Page
  */
 export async function DELETE(_: Request, { params }: Params) {
+  const { roll } = await params;
+
   try {
     await prisma.student.delete({
-      where: {
-        rollNo: params.roll,
-      },
+      where: { rollNo: roll },
     });
 
     return NextResponse.json({
       message: "Student de-registered successfully",
     });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return NextResponse.json(
       { error: "Failed to de-register student" },
       { status: 500 }
