@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -56,8 +57,16 @@ export default function RegisterPage() {
   `;
 
   return (
-    <main className="min-h-screen bg-gray-100 flex items-center justify-center p-6">
-      <div className="w-full max-w-3xl bg-gray-50 rounded-2xl shadow-xl p-8 border border-gray-200">
+    <main className="min-h-screen bg-gray-100 p-6">
+      {/* Home Button */}
+      <Link
+        href="/"
+        className="inline-block mb-6 text-blue-600 font-semibold hover:underline"
+      >
+        ← Home
+      </Link>
+
+      <div className="max-w-3xl mx-auto bg-gray-50 rounded-2xl shadow-xl p-8 border border-gray-200">
         <h1 className="text-3xl font-bold text-gray-900 text-center">
           Register Student
         </h1>
@@ -107,7 +116,6 @@ export default function RegisterPage() {
             className={inputClass}
             required
           />
-
           <input
             type="email"
             name="email"
@@ -115,7 +123,6 @@ export default function RegisterPage() {
             className={inputClass}
             required
           />
-
           <input
             name="phone"
             placeholder="Phone Number"
