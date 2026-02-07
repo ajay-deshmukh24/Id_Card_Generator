@@ -28,12 +28,6 @@ Install dependencies
   npm install
 ```
 
-Install dependencies
-
-```bash
-  npm install
-```
-
 Start PostgreSQL Container
 
 ```bash
